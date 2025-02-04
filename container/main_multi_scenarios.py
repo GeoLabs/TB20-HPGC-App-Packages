@@ -29,7 +29,7 @@ def resample_raster(rasterfile_path, filename, temp_path, rescale_factor):
     if (xres != 0) and (yres != 0):
         # resample raster
         save_path = temp_path +"/"+ filename + f"_resample.tiff"
-        subprocess.run(["gdalwarp","-r","bilinear","-of","GTiff","-tr",str(xres),str(yres),rasterfile_path,save_path])
+        subprocess.run(["gdalwarp","-r","bilinear","-tr",str(xres),str(yres),rasterfile_path,save_path])
 
         return save_path, raster_meta
     
@@ -331,7 +331,7 @@ if __name__ == "__main__":
 
     print(f"Iter: {iter_num}, Dam count: {dam_count}, Range: {start_num} - {end_num}")
     '''
-    INPUT_DAMS = sys.argv[1] #os.getenv("param_dam_id")  # Takes NID dam ids as input
+    INPUT_DAMS = sys.argv[2] #os.getenv("param_dam_id")  # Takes NID dam ids as input
     PROCESSORS = 1
 
     # Multiple Scenarios
@@ -340,7 +340,7 @@ if __name__ == "__main__":
     sce_nh = {'loadCondition': 'NH', 'breachCondition': 'F'}  # Normal Height scenario
     
     # Here we rely on the data available from HYDROSHARE
-    data_dir = "/vsicurl?list_dir=no&empty_dir=yes&url=https://www.hydroshare.org/resource/1de14e8622564aa5bd645b92d899a201/data/contents/"
+    data_dir = sys.argv[1] #"/vsicurl?list_dir=no&empty_dir=yes&url=https://www.hydroshare.org/resource/1de14e8622564aa5bd645b92d899a201/data/contents/"
     output_dir = os.path.join("/tmp", f'Multi_F_Results', f'N_0')
     temp_path = os.getcwd() # Temporary directory for write GDAL results
 
@@ -359,10 +359,11 @@ if __name__ == "__main__":
     # Locate dams per lat/lon
     fed_dams = gpd.GeoDataFrame(fed_dams, geometry=gpd.points_from_xy(fed_dams['LON'], fed_dams['LAT'], crs="EPSG:4326"))
     print(f'Total Dams: {fed_dams.shape[0]}')
-    
+
     # Census tract to find state associated with fim of each dam
     #tract = gpd.read_file(os.path.join(data_dir, 'census_geometry', 'census_tract_from_api.geojson'))
-    tract = gpd.read_file("https://raw.githubusercontent.com/I-GUIDE/population_vulnerable_to_dam_failure/refs/heads/main/sample_data/census_geometry/census_tract_from_api.geojson")
+    #tract = gpd.read_file("https://raw.githubusercontent.com/I-GUIDE/population_vulnerable_to_dam_failure/refs/heads/main/sample_data/census_geometry/census_tract_from_api.geojson")
+    tract = gpd.read_file("https://testbed19.geolabs.fr:8719/temp/zTmp/census_tract_from_api.geojson")
 
     # List of census data to be retrieved. The key is the census data abbreviation used in the final table.
     # str: single variable
