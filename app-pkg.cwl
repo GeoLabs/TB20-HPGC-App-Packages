@@ -45,11 +45,11 @@ $graph:
       tmpdirMin: 5000
     EnvVarRequirement:
       envDef:
-        AWS_S3_ENDPOINT: tb20.geolabs.fr:4999
-        AWS_NO_SIGN_REQUEST: NO
-        AWS_ACCESS_KEY_ID: minio-admin
-        AWS_SECRET_ACCESS_KEY: minio-secret-password
-        AWS_HTTPS: NO
+        AWS_S3_ENDPOINT: "tb20.geolabs.fr:4999"
+        AWS_NO_SIGN_REQUEST: "NO"
+        AWS_ACCESS_KEY_ID: "minio-admin"
+        AWS_SECRET_ACCESS_KEY: "minio-secret-password"
+        AWS_HTTPS: "NO"
         AWS_VIRTUAL_HOSTING: "FALSE"
     InitialWorkDirRequirement:
       listing:
